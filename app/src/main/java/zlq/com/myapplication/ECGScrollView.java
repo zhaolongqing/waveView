@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -24,8 +25,6 @@ public class ECGScrollView extends View {
     private int xMax;
     private int yMax;
 
-    private int[] data;
-
     //每个单位里面多少格
     private int stepCount;
     //总共x/y个单位长度
@@ -41,6 +40,14 @@ public class ECGScrollView extends View {
     private Paint secondLinePaint = new Paint();
     //折线
     private Paint waveLinePaint = new Paint();
+    private Path wavePath = new Path();
+    private int pathTmp;
+
+    private float perLineWidth;
+    private float perLineHeight;
+    private float perUnitWidth;
+    private float perUnitHeight;
+    private ArrayQueue arrayQueue;
 
     public ECGScrollView(Context context) {
         super(context);
@@ -72,9 +79,12 @@ public class ECGScrollView extends View {
         stepCount = ta.getInt(R.styleable.ECGScrollView_step_count, 1);
         xTrueTotal = xTotal / stepCount;
         yTrueTotal = yTotal / stepCount;
-        data = new int[xTotal];
         initDraw(ta);
         ta.recycle();
+    }
+
+    public void setData(ArrayQueue arrayQueue) {
+        this.arrayQueue = arrayQueue;
     }
 
     /**
@@ -101,13 +111,13 @@ public class ECGScrollView extends View {
      */
     private void initBackground(Canvas canvas) {
 //        一个单位的宽的长度
-        float perLineWidth = mWidth / (float) xTrueTotal;
+        perLineWidth = mWidth / (float) xTrueTotal;
 //        一个单位的高的长度
-        float perLineHeight = mHeight / (float) yTrueTotal;
+        perLineHeight = mHeight / (float) yTrueTotal;
 //         每个宽度单位中的每小格长度
-        float perUnitWidth = perLineWidth / stepCount;
+        perUnitWidth = perLineWidth / stepCount;
 //         每个高度单位中的每小格长度
-        float perUnitHeight = perLineHeight / stepCount;
+        perUnitHeight = perLineHeight / stepCount;
 
         for (int i = 0; i < xTrueTotal; i++) {
 //          画竖线
@@ -128,9 +138,15 @@ public class ECGScrollView extends View {
 
     }
 
-    private void drawPath(int data) {
-    }
 
+    /**
+     * 按x轴的最小单位定位y值并画线
+     */
+    private void drawWave(Canvas canvas, int y) {
+        wavePath.moveTo(0, (yTrueTotal >> 1) * perLineHeight - pathTmp);
+        wavePath.lineTo(perUnitWidth, (yTrueTotal >> 1) * perLineHeight - y);
+        pathTmp = y;
+    }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -139,10 +155,21 @@ public class ECGScrollView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         initBackground(canvas);
+        if (arrayQueue != null) {
+            Integer i = arrayQueue.select();
+
+            if (i != null) {
+                if (pathTmp == 0) {
+                    pathTmp = i;
+                }
+                drawWave(canvas, i);
+            }
+        }
     }
 
 

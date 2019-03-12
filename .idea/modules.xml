@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/electrocardiogram/electrocardiogram.iml" filepath="$PROJECT_DIR$/electrocardiogram/electrocardiogram.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libDEMO4Oximeter_BLE/libDEMO4Oximeter_BLE.iml" filepath="$PROJECT_DIR$/libDEMO4Oximeter_BLE/libDEMO4Oximeter_BLE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/waveView.iml" filepath="$PROJECT_DIR$/waveView.iml" />
+    </modules>
+  </component>
+</project>
