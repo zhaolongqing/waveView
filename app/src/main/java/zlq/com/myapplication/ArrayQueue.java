@@ -18,7 +18,7 @@ public final class ArrayQueue {
     private final int[] queue;
     //    自增长长度
     private int addLength = 0;
-    //    需要增长的位置
+    //    需要增长的位置（注意：这里的start是要增长的位置，也就是开始位置应该是减1）
     private int start = 0;
     //    初始游标
     private int cursor = -1;
@@ -45,65 +45,83 @@ public final class ArrayQueue {
      * 增加数字
      */
     public void pop(int d) {
-        start = start == length ? 0 : start++;
-        queue[start] = d;
+        queue[start++] = d;
+        start = start % length;
         if (!isFull()) {
             addLength++;
-        } else
+        } else {
             selectEnd();
+        }
     }
 
     /**
      * 删除数字
      */
     public void remove() {
-        if (addLength - 1 != -1) {
-            selectEnd();
-            addLength--;
-            queue[end] = 0;
-        } else {
+        int s = start - 1 + length * ((start - 1) < 0 ? 1 : 0);
+        if (addLength == 0) {
             try {
                 throw new Exception("remove error");
             } catch (Exception e) {
                 Log.e(TAG, "", e);
             }
         }
+        if (end == s) {
+            queue[end] = 0;
+        }
+        queue[end++] = 0;
+        if (end == length) {
+            end = 0;
+        }
+        addLength--;
+        cursor = end;
     }
 
     private void selectEnd() {
-        if (isFull()) {
-//            s 0,e 1  s 1,e 2  s 2,e 3 s 3, e 0
-            end = start + 1 == length ? 0 : start + 1;
-        } else {
-            end = start - addLength + 1 >= 0 ? start - addLength + 1 : length - (addLength - start - 1);
+        end = start - addLength;
+        if (end < 0) {
+            end = end + length;
         }
-        cursor = end;
     }
 
     /**
      * 查询
-     * 先进后查
+     * 先进先查
+     * end
      */
     public Integer select() {
-        start;
-        end;
-        addLength;
-        cursor;
-
-        if (start >= end) {
-            if (cursor + 1 <= start) {
-                cursor += 1;
-                return queue[cursor];
-            } else return null;
-        } else {
-            int c1 = cursor + 1;
-
-            if (c1 == length) {
-
-            }else{
-                if (addLength)
+        if (addLength == 0) {
+            return null;
+        }
+        int s = start - 1 + length * ((start - 1) < 0 ? 1 : 0);
+        if (cursor == -1) {
+            cursor = end;
+        }
+        if (cursor == s) {
+            int c = cursor;
+            cursor = end;
+            if (cursor - end < addLength) {
+                return queue[c];
             }
         }
+        if (cursor == length) {
+            cursor = 0;
+        }
+        return queue[cursor++];
+    }
+
+    /**
+     * 返回初始化长度
+     */
+    public int initLength() {
+        return length;
+    }
+
+    /**
+     * 返回增加的长度
+     */
+    public int getAddLength() {
+        return addLength;
     }
 
 }

@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <zlq.com.myapplication.ECGScrollView
+        android:id="@+id/ecg_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -23,7 +24,9 @@
         app:step_count="5"
         app:wave_line_color="@android:color/black"
         app:wave_line_width="2dp"
+        app:x_max="600"
         app:x_total="100"
+        app:y_max="500"
         app:y_total="200" />
 
 </android.support.constraint.ConstraintLayout>
