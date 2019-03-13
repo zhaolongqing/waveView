@@ -1,11 +1,9 @@
 package zlq.com.myapplication;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,7 +11,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     final Handler handler = new Handler();
-    final ArrayQueue arrayQueue = new ArrayQueue(2000);
+    static int xj = 1;
+
+    final ArrayQueue arrayQueue = new ArrayQueue(50);
     final Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -39,12 +39,16 @@ public class MainActivity extends AppCompatActivity {
 
         ecgScrollView.setData(arrayQueue);
 
-
         ecgScrollView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                handler.postDelayed(runnable, 20);
+                handler.postDelayed(runnable, 20);
                 handler.post(runnable);
+               /* for (int i = 0; i < 50; i++) {
+                    arrayQueue.pop(i * xj);
+                }
+                ecgScrollView.drawWaveArray();
+                xj++;*/
             }
         });
     }

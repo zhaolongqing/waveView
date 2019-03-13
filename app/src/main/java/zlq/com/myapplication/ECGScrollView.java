@@ -8,11 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -163,6 +158,19 @@ public class ECGScrollView extends View {
     }
 
 
+    public void drawWaveArray() {
+        wavePath.reset();
+        wavePath.moveTo(0, (float) (mHeight / 2.0));
+        for (int i = 0; i < arrayQueue.getAddLength(); i++) {
+            wavePath.lineTo(i * perUnitWidth, (yTrueTotal >> 1) * perLineHeight - arrayQueue.select());
+        }
+        backgroundBitmap = backCacheBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        waveCanvas.setBitmap(backgroundBitmap);
+        waveCanvas.drawPath(wavePath, waveLinePaint);
+        postInvalidate();
+    }
+
+
     /**
      * 按x轴的最小单位定位y值并画线
      */
@@ -175,25 +183,14 @@ public class ECGScrollView extends View {
     /**
      * 画线
      */
+    private boolean isFull = false;
+
     public void drawWave() {
         wavePath.moveTo(perUnitWidth * drawCount, (yTrueTotal >> 1) * perLineHeight - pathTmp);
         pathTmp = arrayQueue.select();
         if (drawCount * perUnitWidth >= mWidth) {
-            /*if (pathMeasure.getLength() != 0) {
-                Path path = new Path();
-                while (pathMeasure.nextContour()) {
-                    pathMeasure.getPosTan(0, point, tan);
-                    if (point[0] != perUnitWidth*10) {
-                        boolean t = pathMeasure.getSegment((float) 0, pathMeasure.getLength(), path, true);
-                    }
-                }
-                wavePath.reset();
-                invalidate();
-                wavePath = path;
-                waveCanvas.drawPath(path, waveLinePaint);
-                invalidate();
-            }*/
             drawCount = 0;
+            isFull = true;
         } else {
             drawCount += 1;
         }
@@ -201,25 +198,26 @@ public class ECGScrollView extends View {
             return;
         }
         wavePath.lineTo(perUnitWidth * drawCount, (yTrueTotal >> 1) * perLineHeight - pathTmp);
-
         pathMeasure.setPath(wavePath, false);
+        if (isFull)
+            clearFirst();
         waveCanvas.drawPath(wavePath, waveLinePaint);
-//        postInvalidate();
+        postInvalidate();
     }
 
-    public Bitmap getClearBitmap(int x, int y) {
-        return Bitmap.createBitmap(backCacheBitmap, x, y, unitWidthInt + 200, mHeight);
+    public void clearFirst() {
+        if (pathMeasure.getLength() != 0) {
+            Path path = new Path();
+            while (pathMeasure.nextContour()) {
+                pathMeasure.getPosTan(0, point, tan);
+                pathMeasure.getSegment((float) 0, pathMeasure.getLength(), path, true);
+            }
+            wavePath = path;
+            backgroundBitmap = backCacheBitmap.copy(Bitmap.Config.ARGB_8888, true);
+            waveCanvas.setBitmap(backgroundBitmap);
+        }
     }
 
-
-
-       /* Rect rect = new Rect(unitWidthInt * (drawCount + 1), 0,
-                unitWidthInt * (drawCount + 2), mHeight);
-
-        if (unitWidthInt * (drawCount + 2) + 200 < mWidth) {
-            waveCanvas.drawBitmap(getClearBitmap(unitWidthInt * (drawCount + 1), 0),
-                    rect, rect, mainLinePaint);
-        }*/
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
