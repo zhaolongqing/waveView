@@ -6,27 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <zlq.com.myapplication.ECGScrollView
+    <zlq.com.myapplication.ECGPathWaveView
         android:id="@+id/ecg_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:line_width="2dp"
-        app:main_line_color="@color/tttt"
-        app:second_line_color="@color/colorAccent"
-        app:step_count="5"
-        app:wave_line_color="@android:color/black"
-        app:wave_line_width="5dp"
-        app:x_max="200"
-        app:x_total="100"
-        app:y_max="200"
-        app:y_total="200" />
+        app:layout_constraintVertical_bias="0.0"
+        app:sub_stroke_width="3dp"
+        app:x_max="1000"
+        app:y_max="5000"
+        app:y_min="-5000" />
 
 </android.support.constraint.ConstraintLayout>

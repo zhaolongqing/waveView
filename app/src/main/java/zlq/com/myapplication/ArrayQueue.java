@@ -15,7 +15,7 @@ public final class ArrayQueue {
     //    初始化长度
     private final int length;
     //    队列
-    private final int[] queue;
+    private final double[] queue;
     //    自增长长度
     private int addLength = 0;
     //    需要增长的位置（注意：这里的start是要增长的位置，也就是开始位置应该是减1）
@@ -34,7 +34,7 @@ public final class ArrayQueue {
             }
         }
         this.length = length;
-        queue = new int[length];
+        queue = new double[length];
     }
 
     public boolean isFull() {
@@ -44,7 +44,7 @@ public final class ArrayQueue {
     /**
      * 增加数字
      */
-    public void pop(int d) {
+    public void pop(double d) {
         queue[start++] = d;
         start = start % length;
         if (!isFull()) {
@@ -90,9 +90,13 @@ public final class ArrayQueue {
      * 先进先查
      * end
      */
-    public Integer select() {
+    public double select() {
         if (addLength == 0) {
-            return null;
+            try {
+                throw new Exception("length is 0");
+            } catch (Exception e) {
+                Log.e(TAG, "", e);
+            }
         }
         int s = start - 1 + length * ((start - 1) < 0 ? 1 : 0);
         if (cursor == -1) {
