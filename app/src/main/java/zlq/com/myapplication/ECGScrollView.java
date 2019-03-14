@@ -1,6 +1,9 @@
 package zlq.com.myapplication;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Application;
+import android.arch.lifecycle.LifecycleObserver;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -9,8 +12,11 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -42,21 +48,92 @@ public class ECGScrollView extends View {
     private Paint secondLinePaint = new Paint();
     //折线
     private Paint waveLinePaint = new Paint();
+    //绘制的路径
     private Path wavePath = new Path();
+    //path的测量工具
     private PathMeasure pathMeasure = new PathMeasure();
-
     //背景图
     private Bitmap backgroundBitmap;
     //复制背景图
     private Bitmap backCacheBitmap;
-
+    //        一个单位的宽的长度
     private float perLineWidth;
+    //        一个单位的高的长度
     private float perLineHeight;
+    //         每个宽度单位中的每小格长度
     private float perUnitWidth;
+    //         每个高度单位中的每小格长度
     private float perUnitHeight;
+    //         给定一个数据队列
     private ArrayQueue arrayQueue;
+    //         绘制波形画板
     private Canvas waveCanvas = new Canvas();
-    private int unitWidthInt;
+    //绘制次数
+    private int drawCount;
+    //上一次绘制路径的y值
+    private float pathTmp;
+    //路径的坐标值
+    private float[] point = new float[2];
+    //路径的tan角度
+    private float[] tan = new float[2];
+    private LifeCycle lifeCycle;
+
+    private enum LifeCycle {
+        CREATE, START, RESUME, PAUSE, STOP, DESTROY
+    }
+
+    ;
+
+    /**
+     * 画线
+     */
+    private boolean isFull = false;
+
+    /**
+     * 监听生命周期
+     */
+    private Application.ActivityLifecycleCallbacks callbacks = new Application.ActivityLifecycleCallbacks() {
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+            lifeCycle = LifeCycle.CREATE;
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+            lifeCycle = LifeCycle.START;
+        }
+
+        @Override
+        public void onActivityResumed(Activity activity) {
+            lifeCycle = LifeCycle.RESUME;
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+            lifeCycle = LifeCycle.PAUSE;
+            backgroundBitmap = backCacheBitmap.copy(Bitmap.Config.ARGB_8888, true);
+            waveCanvas.setBitmap(backgroundBitmap);
+            ECGScrollView.this.invalidate();
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+            lifeCycle = LifeCycle.STOP;
+            isFull = false;
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+            lifeCycle = LifeCycle.DESTROY;
+            activity.getApplication().unregisterActivityLifecycleCallbacks(this);
+        }
+    };
+
     ;
 
     public ECGScrollView(Context context) {
@@ -80,6 +157,9 @@ public class ECGScrollView extends View {
     }
 
 
+    /**
+     * 初始化属性
+     */
     private void initAttrs(Context context, AttributeSet attrs) {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ECGScrollView);
         xTotal = ta.getInt(R.styleable.ECGScrollView_x_total, 200);
@@ -90,9 +170,17 @@ public class ECGScrollView extends View {
         xTrueTotal = xTotal / stepCount;
         yTrueTotal = yTotal / stepCount;
         initDraw(ta);
+        registerRecycle(context);
         ta.recycle();
     }
 
+    private void registerRecycle(Context context) {
+        ((Activity) context).getApplication().registerActivityLifecycleCallbacks(callbacks);
+    }
+
+    /**
+     * 设置队列
+     */
     public void setData(ArrayQueue arrayQueue) {
         this.arrayQueue = arrayQueue;
     }
@@ -128,16 +216,10 @@ public class ECGScrollView extends View {
         backCanvas.setBitmap(backgroundBitmap);
         waveCanvas.setBitmap(backgroundBitmap);
 
-//        一个单位的宽的长度
         perLineWidth = mWidth / (float) xTrueTotal;
-//        一个单位的高的长度
         perLineHeight = mHeight / (float) yTrueTotal;
-//         每个宽度单位中的每小格长度
         perUnitWidth = perLineWidth / stepCount;
-//         每个高度单位中的每小格长度
         perUnitHeight = perLineHeight / stepCount;
-
-        unitWidthInt = (int) (perUnitWidth);
 
         for (int i = 0; i <= xTrueTotal; i++) {
 //          画竖线
@@ -158,36 +240,14 @@ public class ECGScrollView extends View {
     }
 
 
-    public void drawWaveArray() {
-        wavePath.reset();
-        wavePath.moveTo(0, (float) (mHeight / 2.0));
-        for (int i = 0; i < arrayQueue.getAddLength(); i++) {
-            wavePath.lineTo(i * perUnitWidth, (yTrueTotal >> 1) * perLineHeight - arrayQueue.select());
-        }
-        backgroundBitmap = backCacheBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        waveCanvas.setBitmap(backgroundBitmap);
-        waveCanvas.drawPath(wavePath, waveLinePaint);
-        postInvalidate();
-    }
-
-
     /**
      * 按x轴的最小单位定位y值并画线
      */
-    //绘制次数
-    private int drawCount;
-    private float pathTmp;
-    private float[] point = new float[2];
-    private float[] tan = new float[2];
-
-    /**
-     * 画线
-     */
-    private boolean isFull = false;
-
     public void drawWave() {
+        if (lifeCycle.equals(LifeCycle.PAUSE))
+            return;
         wavePath.moveTo(perUnitWidth * drawCount, (yTrueTotal >> 1) * perLineHeight - pathTmp);
-        pathTmp = arrayQueue.select();
+        pathTmp = (float) arrayQueue.select();
         if (drawCount * perUnitWidth >= mWidth) {
             drawCount = 0;
             isFull = true;
@@ -205,7 +265,11 @@ public class ECGScrollView extends View {
         postInvalidate();
     }
 
-    public void clearFirst() {
+
+    /**
+     * 删除path最先绘制的第一个路径
+     */
+    private void clearFirst() {
         if (pathMeasure.getLength() != 0) {
             Path path = new Path();
             while (pathMeasure.nextContour()) {
