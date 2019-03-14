@@ -6,6 +6,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.zhaogege.ecgviewlibrary.ArrayQueue;
+import com.zhaogege.ecgviewlibrary.ECGScrollView;
+
 public class MainActivity extends AppCompatActivity {
 
     static int i = 0;
