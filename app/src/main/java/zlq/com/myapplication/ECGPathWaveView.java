@@ -125,8 +125,8 @@ public class ECGPathWaveView extends View {
         xSpeed = ta.getFloat(R.styleable.ECGPathWaveView_x_speed, 2);
         ySpeed = ta.getFloat(R.styleable.ECGPathWaveView_y_speed, 2);
         mainColor = ta.getColor(R.styleable.ECGPathWaveView_main_line_color, getResources().getColor(R.color.main_color));
-        subColor = ta.getColor(R.styleable.ECGPathWaveView_main_line_color, getResources().getColor(R.color.sub_color));
-        waveColor = ta.getColor(R.styleable.ECGPathWaveView_main_line_color, getResources().getColor(R.color.wave_color));
+        subColor = ta.getColor(R.styleable.ECGPathWaveView_sub_line_color, getResources().getColor(R.color.sub_color));
+        waveColor = ta.getColor(R.styleable.ECGPathWaveView_wave_line_color, getResources().getColor(R.color.wave_color));
         mainStrokeWidth = ta.getDimension(R.styleable.ECGPathWaveView_main_stroke_width, 3);
         subStrokeWidth = ta.getDimension(R.styleable.ECGPathWaveView_sub_stroke_width, 1);
         waveStrokeWidth = ta.getDimension(R.styleable.ECGPathWaveView_wave_stroke_width, 1);
