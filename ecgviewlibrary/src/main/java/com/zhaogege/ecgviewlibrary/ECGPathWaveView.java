@@ -257,7 +257,7 @@ public class ECGPathWaveView extends View {
         if (LIFECYCLE_STATUE.equals(LifecycleStatue.STOP)) {
             return;
         }
-        wavePath.moveTo(travelWidth * xDrawCount, ((yMax - yMin) / 2 / ySpeed) * travelHeight - yTemp);
+        wavePath.moveTo(travelWidth * xDrawCount, ((yMax - yMin) / 2 / ySpeed) * travelHeight - yTemp / ySpeed * travelHeight);
         yTemp = (float) xQueue.select();
         if (xDrawCount * travelWidth >= mWidth) {
             xDrawCount = 0;
@@ -268,7 +268,7 @@ public class ECGPathWaveView extends View {
         if (xDrawCount == 0) {
             return;
         }
-        wavePath.lineTo(travelWidth * xDrawCount, ((yMax - yMin) / 2 / ySpeed) * travelHeight - yTemp);
+        wavePath.lineTo(travelWidth * xDrawCount, ((yMax - yMin) / 2 / ySpeed) * travelHeight - yTemp / ySpeed * travelHeight);
         pathMeasure.setPath(wavePath, false);
         if (isXFull)
             clearFirst();
