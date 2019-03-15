@@ -16,5 +16,6 @@
 app/libs/
 /autosize
 /electrocardiogram
-/libDEMO4Oximeter_BLE
 /app
+import-summary.txt
+/libDEMO4Oximeter_BLE/build/

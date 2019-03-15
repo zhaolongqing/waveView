@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  
+    <color name="wavebackground">#e8e8e8</color>
+    <color name="data_temp">#898b0a</color>
+    <color name="gridviewbg">#fff</color> 
+    <color name="data_spo2">#b939bb</color>
+    <color name="data_pr">#0a7b14</color>
+    <color name="data_pi">#898b0a</color>
+     
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">POD</string>
+    <string name="hello_world">Hello world!</string>
+
+    <string name="const_spo2_text">SPO2</string>
+    <string name="const_spo2_unit_text">%</string>
+    <string name="const_pr_text">PR</string>
+    <string name="const_pr_unit_text">bmp</string>
+    <string name="const_pi_text">PI</string> 
+    <string name="connect">connect</string>
+    <string name="disconnect">disconnect</string>
+    
+</resources>

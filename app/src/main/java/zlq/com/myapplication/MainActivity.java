@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     final Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            arrayQueue.pop(random.nextDouble() * 100);
+            arrayQueue.pop(random.nextDouble() * 1000);
             ecgScrollView.drawXLine();
             handler.postDelayed(runnable, 10);
         }

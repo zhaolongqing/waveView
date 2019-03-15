@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <issue id="DrawAllocation" severity="ignore" />
+    <issue id="HandlerLeak" severity="ignore">
+        <ignore path="src/com/creative/recvdata/ReceiveService.java" />
+    </issue>
+    <issue id="HardcodedText" severity="ignore" />
+    <issue id="NewApi" severity="ignore" />
+</lint>

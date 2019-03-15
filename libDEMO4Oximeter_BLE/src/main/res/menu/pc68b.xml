@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools" >
+    
+    <item
+        android:id="@+id/action1"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="get device version"/>  
+    <item
+        android:id="@+id/action2"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="get device time"/>
+    
+    <item
+        android:id="@+id/action3"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="get device SN"/>
+    
+    <item
+        android:id="@+id/action4"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="get alert param"/>
+    
+    <item
+        android:id="@+id/action5"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="get all record"/>    
+  
+        
+    <item
+        android:id="@+id/action6"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="get one detail record"/>  
+
+</menu>
