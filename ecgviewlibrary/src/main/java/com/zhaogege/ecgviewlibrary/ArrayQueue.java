@@ -1,4 +1,4 @@
-package zlq.com.myapplication;
+package com.zhaogege.ecgviewlibrary;
 
 import android.util.Log;
 
@@ -82,6 +82,13 @@ public final class ArrayQueue {
         if (end < 0) {
             end = end + length;
         }
+    }
+
+    public void clear() {
+        addLength = 0;
+        cursor = -1;
+        end = 0;
+        start = 0;
     }
 
 

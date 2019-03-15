@@ -1,6 +1,8 @@
-package zlq.com.myapplication;
+package com.zhaogege.ecgviewlibrary;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -9,7 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.os.Build;
-import android.support.annotation.Nullable;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -92,22 +94,72 @@ public class ECGPathWaveView extends View {
     //判断x轴是否画满
     private boolean isXFull;
 
+    private LifecycleStatue LIFECYCLE_STATUE = LifecycleStatue.STOP;
+    ;
+
+    private enum LifecycleStatue {
+        START, STOP;
+    }
+
+    private Application.ActivityLifecycleCallbacks lifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityResumed(Activity activity) {
+            if (xDrawCount > 0) {
+                isXFull = false;
+                xDrawCount = 0;
+                xQueue.clear();
+                backgroundBitmap = backCacheBitmap.copy(Bitmap.Config.ARGB_8888, true);
+                wavePath = new Path();
+            }
+            LIFECYCLE_STATUE = LifecycleStatue.START;
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+            LIFECYCLE_STATUE = LifecycleStatue.STOP;
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+            activity.getApplication().unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
+        }
+    };
+
     public ECGPathWaveView(Context context) {
         super(context);
     }
 
-    public ECGPathWaveView(Context context, @Nullable AttributeSet attrs) {
+    public ECGPathWaveView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initAttrs(context, attrs);
     }
 
-    public ECGPathWaveView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ECGPathWaveView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initAttrs(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ECGPathWaveView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ECGPathWaveView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initAttrs(context, attrs);
     }
@@ -131,7 +183,12 @@ public class ECGPathWaveView extends View {
         subStrokeWidth = ta.getDimension(R.styleable.ECGPathWaveView_sub_stroke_width, 1);
         waveStrokeWidth = ta.getDimension(R.styleable.ECGPathWaveView_wave_stroke_width, 1);
         initDraw();
+        registerRecycle(context);
         ta.recycle();
+    }
+
+    private void registerRecycle(Context context) {
+        ((Activity) context).getApplication().registerActivityLifecycleCallbacks(lifecycleCallbacks);
     }
 
     /**
@@ -197,6 +254,9 @@ public class ECGPathWaveView extends View {
      * 沿x轴画线
      */
     public void drawXLine() {
+        if (LIFECYCLE_STATUE.equals(LifecycleStatue.STOP)) {
+            return;
+        }
         wavePath.moveTo(travelWidth * xDrawCount, ((yMax - yMin) / 2 / ySpeed) * travelHeight - yTemp);
         yTemp = (float) xQueue.select();
         if (xDrawCount * travelWidth >= mWidth) {

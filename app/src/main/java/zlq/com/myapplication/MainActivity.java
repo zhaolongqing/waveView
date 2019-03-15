@@ -5,6 +5,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.zhaogege.ecgviewlibrary.ArrayQueue;
+import com.zhaogege.ecgviewlibrary.ECGPathWaveView;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     final Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            arrayQueue.pop( random.nextDouble() * 100);
+            arrayQueue.pop(random.nextDouble() * 100);
             ecgScrollView.drawXLine();
             handler.postDelayed(runnable, 10);
         }
@@ -31,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
     }
 
     @Override
@@ -45,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
         ecgScrollView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                handler.removeCallbacks(null);
                 handler.postDelayed(runnable, 20);
-                handler.post(runnable);
                /* for (int i = 0; i < 50; i++) {
                     arrayQueue.pop(i * xj);
                 }

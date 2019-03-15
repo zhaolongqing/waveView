@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <zlq.com.myapplication.ECGPathWaveView
+    <com.zhaogege.ecgviewlibrary.ECGPathWaveView
         android:id="@+id/ecg_view"
         android:layout_width="0dp"
         android:layout_height="0dp"

@@ -1,33 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<declare-styleable name="ECGScrollView">
-        <attr name="x_total" format="integer" />
-        <attr name="y_total" format="integer" />
-        <attr name="x_max" format="integer" />
-        <attr name="y_max" format="integer" />
-        <attr name="step_count" format="integer" />
-        <attr name="main_line_color" format="color|reference" />
-        <attr name="second_line_color" format="color|reference" />
-        <attr name="wave_line_color" format="color|reference" />
-        <attr name="line_width" format="dimension" />
-        <attr name="wave_line_width" format="dimension" />
-    </declare-styleable>-->
     <declare-styleable name="ECGPathWaveView">
         <attr name="x_line_count" format="integer" />
         <attr name="y_line_count" format="integer" />
         <attr name="x_unit_count" format="integer" />
         <attr name="y_unit_count" format="integer" />
         <attr name="x_max" format="float" />
-        <attr name="x_min" format="float" />
         <attr name="y_max" format="float" />
+        <attr name="x_min" format="float" />
         <attr name="y_min" format="float" />
         <attr name="x_speed" format="float" />
         <attr name="y_speed" format="float" />
         <attr name="main_line_color" format="color|reference" />
         <attr name="sub_line_color" format="color|reference" />
         <attr name="wave_line_color" format="color|reference" />
-        <attr name="main_stroke_width" format="dimension" />
-        <attr name="sub_stroke_width" format="dimension" />
-        <attr name="wave_stroke_width" format="dimension" />
+        <attr name="main_stroke_width" format="dimension|reference" />
+        <attr name="sub_stroke_width" format="dimension|reference" />
+        <attr name="wave_stroke_width" format="dimension|reference" />
     </declare-styleable>
 </resources>
