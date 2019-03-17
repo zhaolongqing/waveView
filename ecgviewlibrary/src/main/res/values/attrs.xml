@@ -18,4 +18,13 @@
         <attr name="sub_stroke_width" format="dimension|reference" />
         <attr name="wave_stroke_width" format="dimension|reference" />
     </declare-styleable>
+
+    <declare-styleable name="WaveSurfaceView">
+        <attr name="wave_color" format="color|reference" />
+        <attr name="wave_style" format="reference" />
+        <attr name="wave_width" format="dimension" />
+        <attr name="wave_radius" format="dimension" />
+    </declare-styleable>
+
+
 </resources>

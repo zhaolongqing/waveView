@@ -68,7 +68,7 @@ public class ECGPathWaveView extends View {
     private Canvas waveCanvas = new Canvas();
     //上一个x值
     private float xTemp;
-    //绘制次数
+    //绘制行进次数
     private int xDrawCount;
     //上一个y值
     private float yTemp;
@@ -311,5 +311,9 @@ public class ECGPathWaveView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawBitmap(backgroundBitmap, 0, 0, mainLinePaint);
+        waveLinePaint.setStrokeWidth(40);
+        canvas.drawLine(0, 0, mWidth, mHeight, waveLinePaint);
+//        Bitmap bitmap = backgroundBitmap.copy(Bitmap.Config.ARGB_8888, true);
+//        canvas.drawBitmap();
     }
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.zhaogege.ecgviewlibrary.ECGPathWaveView
+    <zlq.com.myapplication.WaveSurfaceView
         android:id="@+id/ecg_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -20,30 +20,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
+        app:wave_stroke_width="1dp"
         app:x_max="1000"
+        app:x_speed="20"
         app:y_max="5000"
         app:y_min="-5000" />
 
-    <Button
-        android:id="@+id/start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/ecg_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ecg_view"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/start"
-        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>
