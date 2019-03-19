@@ -20,10 +20,23 @@
     </declare-styleable>
 
     <declare-styleable name="WaveSurfaceView">
-        <attr name="wave_color" format="color|reference" />
-        <attr name="wave_style" format="reference" />
-        <attr name="wave_width" format="dimension" />
-        <attr name="wave_radius" format="dimension" />
+        <attr name="x_line_count" format="integer" />
+        <attr name="y_line_count" format="integer" />
+        <attr name="x_unit_count" format="integer" />
+        <attr name="y_unit_count" format="integer" />
+        <attr name="x_max" format="float" />
+        <attr name="y_max" format="float" />
+        <attr name="x_min" format="float" />
+        <attr name="y_min" format="float" />
+        <attr name="x_speed" format="float" />
+        <attr name="y_speed" format="float" />
+        <attr name="main_line_color" format="color|reference" />
+        <attr name="sub_line_color" format="color|reference" />
+        <attr name="wave_line_color" format="color|reference" />
+        <attr name="background_color" format="color|reference" />
+        <attr name="main_stroke_width" format="dimension|reference" />
+        <attr name="sub_stroke_width" format="dimension|reference" />
+        <attr name="wave_stroke_width" format="dimension|reference" />
     </declare-styleable>
 
 

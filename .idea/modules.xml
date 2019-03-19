@@ -3,16 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/autosize/autosize.iml" filepath="$PROJECT_DIR$/autosize/autosize.iml" />
       <module fileurl="file://$PROJECT_DIR$/autosize/autosize.iml" filepath="$PROJECT_DIR$/autosize/autosize.iml" />
       <module fileurl="file://$PROJECT_DIR$/ecgviewlibrary/ecgviewlibrary.iml" filepath="$PROJECT_DIR$/ecgviewlibrary/ecgviewlibrary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ecgviewlibrary/ecgviewlibrary.iml" filepath="$PROJECT_DIR$/ecgviewlibrary/ecgviewlibrary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/electrocardiogram/electrocardiogram.iml" filepath="$PROJECT_DIR$/electrocardiogram/electrocardiogram.iml" />
       <module fileurl="file://$PROJECT_DIR$/electrocardiogram/electrocardiogram.iml" filepath="$PROJECT_DIR$/electrocardiogram/electrocardiogram.iml" />
       <module fileurl="file://$PROJECT_DIR$/libDEMO4Oximeter_BLE/libDEMO4Oximeter_BLE.iml" filepath="$PROJECT_DIR$/libDEMO4Oximeter_BLE/libDEMO4Oximeter_BLE.iml" />
-      <module fileurl="file://$PROJECT_DIR$/libDEMO4Oximeter_BLE/libDEMO4Oximeter_BLE.iml" filepath="$PROJECT_DIR$/libDEMO4Oximeter_BLE/libDEMO4Oximeter_BLE.iml" />
-      <module fileurl="file://$PROJECT_DIR$/waveView.iml" filepath="$PROJECT_DIR$/waveView.iml" />
       <module fileurl="file://$PROJECT_DIR$/waveView.iml" filepath="$PROJECT_DIR$/waveView.iml" />
     </modules>
   </component>
