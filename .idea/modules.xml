@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/androidChat/androidChat.iml" filepath="$PROJECT_DIR$/androidChat/androidChat.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/autosize/autosize.iml" filepath="$PROJECT_DIR$/autosize/autosize.iml" />
       <module fileurl="file://$PROJECT_DIR$/ecgviewlibrary/ecgviewlibrary.iml" filepath="$PROJECT_DIR$/ecgviewlibrary/ecgviewlibrary.iml" />

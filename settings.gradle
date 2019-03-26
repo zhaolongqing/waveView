@@ -1,3 +1,4 @@
 include ':app', ':autosize', ':ecgviewlibrary'
 include ':libDEMO4Oximeter_BLE'
 include ':electrocardiogram'
+include ':androidChat'
